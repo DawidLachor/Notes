@@ -1,3 +1,4 @@
+### Wykonał Dawid Lachor 142940
 from notes import Note, Notebook
 
 
@@ -44,6 +45,8 @@ class Menu:
         if self.notebook.notes.__len__() == 0:
             print("No notes.")
             return False
+        else:
+            return True
 
     def run(self):
         number = input("Enter the option number from the menu to select it: ")
