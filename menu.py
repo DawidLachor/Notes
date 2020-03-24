@@ -3,50 +3,53 @@ from notes import Note, Notebook
 
 class Menu:
     def __init__(self):
-        # self.notebook = Notebook()
+        self.notebook = Notebook()
         self._options = {"1": self.show_notes, "2": self.search_notes, "3": self.add_note, "4": self.modify_note,
                          "5": self.quit}
-        self.n = Notebook()
 
     def show_menu(self):
         for i in range(1, len(self._options) + 1):
-            print(i, self._options[str(i)].__name__)
+            print(str(i) + '. ' + self._options[str(i)].__name__.capitalize().replace('_', " "))
         self.run()
+        print()
 
     def show_notes(self):
-        for note in self.n.notes:
-            print(note)
+        if self.check_is_note() is True:
+            for note in self.notebook.notes:
+                print(note)
 
     def search_notes(self):
-        text = input("Podaj tekst: ")
-        for note in self.n.search(text):
-            print(note)
+        if self.check_is_note() is True:
+            text = input("Enter the text: ")
+            for note in self.notebook.search(text):
+                print(note)
 
     def add_note(self):
-        text = input("Podaj tekst notatki: ")
-        tag = input("Podaj tag notatki: ")
+        text = input("Enter the text of the note: ")
+        tag = input("Enter the tag of the note: ")
 
-        self.n.new_note(Note(text, tag))
+        self.notebook.new_note(Note(text, tag))
 
     def modify_note(self):
-        id = int(input("Podaj ID notatki do zmiany: "))
-        text = input("Podaj nowy tekst: ")
+        if self.check_is_note() is True:
+            id = int(input("Enter the ID of the note: "))
+            text = input("Enter the new text: ")
 
-        print(self.n.modify_text(id, text))
+            print(self.notebook.modify_text(id, text))
 
     def quit(self):
         exit()
 
+    def check_is_note(self):
+        if self.notebook.notes.__len__() == 0:
+            print("No notes.")
+            return False
+
     def run(self):
-        number = input("Podaj numer opcji z menu by ją wybrać: ")
+        number = input("Enter the option number from the menu to select it: ")
         if number in self._options:
             var = self._options[number]
             var()
         else:
-            print("Nie ma takiej opcji w menu")
+            print("There is no such option in the menu.")
         self.show_menu()
-
-
-menu1 = Menu()
-menu1.show_menu()
-menu1.run()
